@@ -1,1 +1,80 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bagsouq AI - مساعد خدمة العملاء</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f1f5f9;color:#172b4d;margin:0}
+header{background:#142b4a;color:white;text-align:center;padding:24px 12px}
+main{max-width:650px;margin:20px auto;padding:14px}
+.card{background:white;padding:18px;border-radius:14px;margin-bottom:15px}
+label{display:block;font-weight:bold;margin:14px 0 7px}
+select,textarea{box-sizing:border-box;width:100%;padding:12px;border:1px solid #ccd5e0;border-radius:9px;font-size:16px}
+textarea{min-height:120px}
+button{background:#142b4a;color:white;border:0;border-radius:9px;padding:13px;font-size:16px;margin-top:12px;cursor:pointer}
+#result{white-space:pre-wrap;line-height:1.8}
+</style>
+</head>
+<body>
+<header>
+<h1>Bagsouq AI</h1>
+<p>مساعد خدمة العملاء</p>
+</header>
+<main>
+<div class="card">
+<label>نوع المهمة</label>
+<select id="task">
+<option>الرد على عميل</option>
+<option>رسالة للمستودع</option>
+<option>رسالة للإدارة</option>
+<option>التوصيل والاسترجاع</option>
+<option>شكوى أو ضمان</option>
+</select>
+<label>لغة الرد</label>
+<select id="lang">
+<option value="ar">العربية الكويتية</option>
+<option value="en">English</option>
+</select>
+<label>رسالة العميل</label>
+<textarea id="msg" placeholder="الصق رسالة العميل هنا"></textarea>
+<label>تفاصيل أو سياسة مؤكدة (اختياري)</label>
+<textarea id="info" placeholder="أدخل المعلومات التي تريد تضمينها"></textarea>
+<button onclick="makeReply()">تجهيز المسودة</button>
+<button onclick="copyReply()">نسخ الرد</button>
+</div>
+<div class="card">
+<h3>الرد المقترح</h3>
+<div id="result">اكتب رسالة العميل ثم اضغط تجهيز المسودة.</div>
+</div>
+</main>
+<script>
+function makeReply(){
+const msg=document.getElementById('msg').value.trim();
+const info=document.getElementById('info').value.trim();
+const lang=document.getElementById('lang').value;
+const task=document.getElementById('task').value;
+if(!msg){alert('اكتب رسالة العميل أولاً');return;}
+let answer;
+if(lang==='ar'){
+answer='مرحبًا، شكرًا لتواصلك مع Bagsouq 🌷\n\nبخصوص استفسارك:\n'+msg;
+if(info) answer+='\n\nالمعلومات المؤكدة:\n'+info;
+answer+='\n\nيسعدنا مساعدتك دائمًا.';
+}else{
+answer='Hello, thank you for contacting Bagsouq!\n\nRegarding your inquiry:\n'+msg;
+if(info) answer+='\n\nConfirmed information:\n'+info;
+answer+='\n\nWe are happy to assist you.';
+}
+document.getElementById('result').textContent=answer;
+}
+function copyReply(){
+const text=document.getElementById('result').textContent;
+if(navigator.clipboard){
+navigator.clipboard.writeText(text).then(()=>alert('تم نسخ الرد')).catch(()=>alert(text));
+}else{alert(text);}
+}
+</script>
+</body>
+</html>
+
